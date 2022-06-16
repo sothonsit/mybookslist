@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, Alert } from 'react-native';
 import Header from './components/Header';
 import ListItem from './components/ListItem';
 import AddItem from './components/AddItem';
@@ -20,10 +20,20 @@ const App = () => {
     })
   }
 
+  const addItem = (text) => {
+    if (!text) {
+      Alert.alert('Warning', 'Please add book', {text: 'Ok'});
+    } else {
+      setItems(prevItems => {
+        return [{id: uuid(), text}, ...prevItems]
+      })
+    }
+  }
+
   return (
     <View style={ styles.container }>
       <Header />
-      <AddItem />
+      <AddItem addItem={addItem} />
       <FlatList
         data={items}
         renderItem={
